@@ -1,0 +1,14 @@
+institution: Center for Animal MRI, UNC at Chapel Hill
+author:
+  - Sung-Ho Lee
+  - Yen-Yu Ian Shih
+license: CC BY 4.0
+subject: phantom
+scans:
+  3: FLASH
+  6: RARE
+  7: FLASH
+  10: FieldMap
+  11: EPI
+notes: Paravision 6.0.1 example dataset
+comments: 50ml conical tube with 2% agar phantom, imaged with high-susceptibility materials on the tube surface

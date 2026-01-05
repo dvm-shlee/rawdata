@@ -1,0 +1,13 @@
+institution: Center for Animal MRI, UNC at Chapel Hill
+author:
+  - Sung-Ho Lee
+  - Yen-Yu Ian Shih
+license: CC BY 4.0
+subject: SD-rat
+scans:
+  3: FLASH
+  4: FieldMap
+  9: TurboRARE
+  11: EPI
+notes: Paravision 5.1 example dataset
+comments: Add any additional context if needed
