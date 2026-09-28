@@ -24,3 +24,7 @@ venv/
 .venv/
 *.egg-info/
 *.pyc
+
+# Local AI agent guidance (not version controlled)
+AGENTS.md
+CLAUDE.md
