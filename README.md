@@ -8,7 +8,7 @@ The datasets are required for unit tests that verify whether brkraw can convert 
 
 ## Adding a new dataset
 
-Please add new datasets via a Pull Request. Use the brkraw `prune` command with the `deid4share` spec from `pruner_spec`.
+Please add new datasets via a Pull Request. Use the brkraw `prune` command with `--anonymize` (brkraw 0.6 or later; it applies the built-in pruner spec `anonymize`, which replaced `deid4share`).
 
 The parameter file generated during pruning is excluded via `.gitignore` (`*.prune.yaml`); keep it locally for your reference.
 
@@ -78,7 +78,11 @@ git lfs migrate import --include="*.zip"
 
 For sharing, detailed scan-related information should be de-identified, and unnecessary large files should be removed to reduce size. Since this is a test dataset for 2dseq reconstructed image conversion, large rawdata files such as `fid` or `rawdata.job0` are removed. The final dataset should keep only `method`, `acqp`, `visu_pars`, `2dseq`, and `reco`.
 
-brkraw provides a default `pruner_spec` named `deid4share`. Use it as shown below.
+brkraw (0.6 or later) ships an example anonymization spec named `anonymize`,
+used with `brkraw prune --anonymize`. It keeps only `subject`, `acqp`,
+`method`, `reco`, `visu_pars` and `2dseq`, replaces the subject and study IDs,
+removes names, operators, institution, dates and UIDs, and strips `$$`
+comment lines. It is a starting point, not a guarantee: check the result.
 
 Check the file first with `brkraw info`:
 
@@ -86,13 +90,15 @@ Check the file first with `brkraw info`:
 brkraw info /path/to/dataset.zip
 ```
 
-For example, you can pass options like this:
+See what would change, then write the zip:
 
 ```bash
-brkraw prune /path/to/dataset.zip \
-  --spec-name deid4share \
-  -o /path/to/output.zip \
-  --strip-jcamp-comments --mode keep \
-  --set-var subject_id=01exp --set-var subject_name=camri --set-var study_id=01 \
-  --scan-ids 3 4 9 11 --reco-ids 1
+brkraw prune /path/to/dataset.zip --anonymize --subject-id 01exp --study-id 01 \
+  -s 3 4 9 11 -r 1 -o /path/to/output.zip --dry-run
+brkraw prune /path/to/dataset.zip --anonymize --subject-id 01exp --study-id 01 \
+  -s 3 4 9 11 -r 1 -o /path/to/output.zip
+brkraw info /path/to/output.zip
 ```
+
+brkraw 0.5.x used other names (`--spec-name deid4share`, `--scan-ids`,
+`--reco-ids`, `--mode keep`); they were removed in 0.6.
